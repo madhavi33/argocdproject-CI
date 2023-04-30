@@ -110,7 +110,7 @@ pipeline{
                    git commit -m "pushing deployment.yml"
                 """
                 withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                      sh "git push  "https://github.com/madhavi33/argocdproject-CI.git" main"
+                      sh "git push https://github.com/madhavi33/argocdproject-CI.git main"
 
                        }
                   }
