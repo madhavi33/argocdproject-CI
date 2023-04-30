@@ -79,44 +79,18 @@ pipeline{
 
         }
 
-
-      stage('updating kubernetes deployment file'){
+      stage('trigger config change pipeine'){
 
         steps{
 
             script{
 
-                sh """
-                 cat deployment.yml
-                 sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml
-                 cat deployment.yml
-
-                """
-
-              }
-          }
-        }
-
-      stage('push the changed deployment file to git'){
- 
-          steps{
-
-             script{
-
-                sh """
-                   git config --global user.name "madhavi33"
-                   git config --global user.email "madhavi.v9@gmail.com"
-                   git add deployment.yml
-                   git commit -m "pushing deployment.yml"
-                """
-                withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                      sh "git push https://github.com/madhavi33/argocdproject-CI.git main"
-
-                       }
-                  }
+                sh "curl -v -k -user jenkins:1169dcee348e62752ee4b6384e64b4b93f -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=$[IMAGE_TAG}' 'http://13.233.150.59:8080/job/gitops-argocd-CD/buildWithParameters?token:gitops-config'"
             }
-          
         }
+      }
+      
+    }
 
 
 
@@ -124,6 +98,5 @@ pipeline{
    }
 
 
-}
 
 
