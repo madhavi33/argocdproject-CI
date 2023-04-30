@@ -14,30 +14,32 @@ pipeline{
 
    stages{
 
-    stage('clean workspace'){
+      stage('Clean workspace'){
 
-        steps{
+          steps{
 
-            script{
+              script{
               
-              cleanWs()
+                  cleanWs()
+ 
+              }
+           }
 
-            }
         }
    
-    stage('git checkout'){
+      stage('git checkout'){
 
-         steps{
+           steps{
+ 
+              script{
 
-            script{
+                  git credentialsId: 'github',
+                  url: 'https://github.com/madhavi33/argocdproject-CI.git',
+                  branch: 'main'
+                }
+           }
 
-                git credentialsId: 'github',
-                url: 'https://github.com/madhavi33/argocdproject-CI.git',
-                branch: 'main'
-            }
-         }
-
-    }
+        }
    
    
     }
